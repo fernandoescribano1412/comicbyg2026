@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CUATERNARIO · novela gráfica</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#e4e1dc;--ink:#3a2a22;--paper:#faf8f4;--cap:#3a2a22;--capt:#faf3e8;--mut:#7a6a5e}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f0e0c;--ink:#d9cfb6;--paper:#191713;--cap:#d9cfb6;--capt:#16140f;--mut:#9a907c}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif;padding:14px}
+header{text-align:center;max-width:780px;margin:10px auto 0}
+h1{font-size:2rem;letter-spacing:.35em;margin:6px 0;font-weight:normal}
+header p{color:var(--mut);font-style:italic;margin:0}
+.page{max-width:780px;margin:22px auto;background:var(--paper);border:1px solid var(--ink);padding:10px}
+.pt{display:flex;justify-content:space-between;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);margin-bottom:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.pn{border:2px solid var(--ink);overflow:hidden;background:var(--paper)}
+.pn.w{grid-column:span 2}
+svg{display:block;width:100%;height:auto}
+.pn svg{filter:saturate(1.2) contrast(1.05) brightness(1.07)}
+.pn svg use{stroke:rgba(60,30,20,.45);stroke-width:.6}
+.tx{background:var(--cap);color:var(--capt);padding:8px 10px;font-size:.88rem;line-height:1.35}
+.tx b{display:block;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;opacity:.75;margin-bottom:2px}
+.tx i{display:block;margin-top:4px;opacity:.9}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.pn.w{grid-column:span 1}}
+</style></head><body>
+<header><h1>CUATERNARIO</h1><p>Dos millones y medio de años de hielo, fuego y consecuencias</p></header>
+<div id="c"></div>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="m" overflow="visible"><path d="M30 20Q40 0 62 8Q96 6 99 40L97 58L93 71H85L83 58H71L69 71H61L59 58H45L43 71H35L33 56Q22 52 26 40Z"/><path d="M32 54L38 66L44 58L52 68L60 58L68 68L76 58L84 68L92 58V52H32Z"/><path d="M28 30Q10 34 12 56Q13 66 6 70L14 72Q25 62 23 48Q23 40 31 40Z"/><path d="M24 42Q4 46 8 66M30 44Q18 56 26 68" stroke="#e8e0cc" fill="none" stroke-width="3" stroke-linecap="round"/><path d="M30 20Q40 0 62 8Q96 6 99 40" fill="none" stroke="rgba(255,190,110,.55)" stroke-width="2"/><path d="M40 40V58M52 38V60M64 40V58M76 38V58M88 42V56" stroke="rgba(255,255,255,.14)" stroke-width="1.5"/><circle cx="27" cy="32" r="1.6" fill="#e8e0cc"/></symbol>
+<symbol id="h" overflow="visible"><circle cx="10" cy="6" r="5.5"/><path d="M3 13H17L21 40L-1 40Z"/><path d="M2 40L5 68H8L10 46L12 68H15L18 40Z"/><path d="M17 16L26 6L27 9L19 22Z"/><path d="M27 -10L21 68" stroke="currentColor" stroke-width="2"/><path d="M25 -10L27 -19L29 -9Z"/><path d="M3 13H17" stroke="rgba(255,190,110,.5)" stroke-width="1.5"/></symbol>
+<symbol id="t" overflow="visible"><path d="M0 30Q10 5 40 10Q60 0 75 12L85 8L82 22Q88 30 80 36L70 34L66 56H58L56 40H24L20 56H12L12 40Q0 42 0 30Z"/><path d="M78 30V46M84 30V44" stroke="#eee" stroke-width="2"/></symbol>
+<symbol id="p" overflow="visible"><path d="M15 0L30 30H20L34 55H-4L10 30H0Z"/><rect x="12" y="55" width="6" height="12"/></symbol>
+<symbol id="k" overflow="visible"><circle cx="15" cy="30" r="12"/><rect x="2" y="6" width="5" height="24" rx="2"/><rect x="9" y="0" width="5" height="26" rx="2"/><rect x="16" y="0" width="5" height="26" rx="2"/><rect x="23" y="5" width="5" height="25" rx="2"/></symbol>
+</defs></svg>
+<script>
+let n=0;
+const u=(id,x,y,s,c)=>`<use href="#${id}" transform="translate(${x} ${y}) scale(${s})" style="fill:${c};color:${c}"/>`;
+const R=(x,y,w,h,f)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}"/>`;
+const C=(x,y,r,f)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${f}"/>`;
+const Pa=(d,f,o)=>`<path d="${d}" fill="${f}" ${o||''}/>`;
+const T=(x,y,t,f,z)=>`<text x="${x}" y="${y}" fill="${f}" font-size="${z}" font-family="Georgia,serif" text-anchor="middle" letter-spacing="2">${t}</text>`;
+const mtn=(c,y)=>Pa(`M0 260V${y}L80 ${y-60}L150 ${y-20}L240 ${y-90}L330 ${y-30}L420 ${y-80}L510 ${y-25}L600 ${y-60}V260Z`,c)+Pa(`M80 ${y-60}L150 ${y-20}L105 ${y+10}ZM240 ${y-90}L330 ${y-30}L270 ${y+10}ZM420 ${y-80}L510 ${y-25}L455 ${y+10}Z`,'rgba(0,0,0,.28)')+Pa(`M72 ${y-48}L80 ${y-60}L90 ${y-46}L83 ${y-50}ZM226 ${y-66}L240 ${y-90}L256 ${y-62}L246 ${y-68}L238 ${y-60}ZM408 ${y-60}L420 ${y-80}L434 ${y-58}L424 ${y-64}L416 ${y-56}Z`,'rgba(255,255,255,.8)');
+const grass=(y,c,k)=>[...Array(k)].map((_,i)=>`<path d="M${i*600/k} ${y}l2-9 2 9M${i*600/k+5} ${y}l3-8 1 8" stroke="${c}" stroke-width="1.5" fill="none"/>`).join('');
+const stars=()=>[...Array(40)].map((_,i)=>C((i*97)%600,(i*53)%150,1.2,'#fff')).join('');
+const sc=(a,b,i)=>{n++;return `<svg viewBox="0 0 600 260" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g${n}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient><linearGradient id="z${n}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#ffe8d0" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><pattern id="hp${n}" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(60)"><line x2="0" y2="4" stroke="#8a4a28" stroke-width=".8"/></pattern><pattern id="hq${n}" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)"><line x2="0" y2="4" stroke="#b5651d" stroke-width=".8"/></pattern><radialGradient id="w${n}"><stop offset=".45" stop-color="#000"/><stop offset="1" stop-color="#fff"/></radialGradient><mask id="k${n}"><rect width="600" height="260" fill="url(#w${n})"/></mask><filter id="d${n}"><feTurbulence type="turbulence" baseFrequency=".035" numOctaves="2" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="3"/></filter><radialGradient id="v${n}"><stop offset=".5" stop-opacity="0"/><stop offset="1" stop-color="#4a2a1a" stop-opacity=".3"/></radialGradient><filter id="f${n}"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2"/><feColorMatrix type="saturate" values="0"/></filter></defs><rect width="600" height="260" fill="url(#g${n})"/><g filter="url(#d${n})">${i}</g><rect y="110" width="600" height="150" fill="url(#z${n})"/><rect width="600" height="260" fill="url(#hp${n})" opacity=".16"/><rect width="600" height="260" fill="url(#hq${n})" opacity=".3" mask="url(#k${n})"/><rect width="600" height="260" filter="url(#f${n})" opacity=".24" style="mix-blend-mode:overlay"/><rect width="600" height="260" fill="url(#v${n})"/></svg>`};
+const wheat=[...Array(30)].map((_,i)=>{const x=i*20+5;return `<path d="M${x} 260V170" stroke="#8a5a14" stroke-width="2"/><ellipse cx="${x}" cy="165" rx="4" ry="12" fill="#6b4410"/>`}).join('');
+const bld=[...Array(11)].map((_,i)=>{const h=(i*37)%70+30;return R(i*55+10,200-h,40,h,'#2a1f1a')}).join('');
+const smoke=[[112,80,28],[140,55,36],[185,35,44],[125,100,22]].map(a=>C(a[0],a[1],a[2],'rgba(90,80,80,.75)')).join('');
+const D='#0d0a08';
+const tk=(x,y,t,dy)=>`<path d="M${x} ${y-8}V${y+8}" stroke="#d9cfb6" stroke-width="2"/>`+T(x,y+dy,t,'#e8dcc0',10);
+const ln=(d,c,w,k)=>Pa(d,'none',`stroke="${c}" stroke-width="${w}" stroke-dasharray="${k||0}"`);
+const E=(x,y,a,b,f)=>`<ellipse cx="${x}" cy="${y}" rx="${a}" ry="${b}" fill="${f}"/>`;
+const tent=(x,y,s,c)=>Pa('M0 0L30 -60L60 0Z',c,`transform="translate(${x} ${y}) scale(${s})"`);
+const acacia=(x,y,s)=>ln(`M${x} ${y}V${y-45*s}`,'#2a1a0e',4*s)+E(x,y-50*s,45*s,12*s,'#3a4a22');
+const bi=(cx,cy,s,c)=>Pa('M200 150Q220 110 270 120Q330 110 360 140L370 190H355L350 165H300L295 190H280L275 165H235L230 190H215L212 160Z',c,`transform="translate(${cx-285*s} ${cy-150*s}) scale(${s})"`);
+const bands=(cs)=>cs.map((c,i)=>R(0,i*42,600,42,c)).join('');
+const bones=[...Array(14)].map((_,i)=>{const x=250+(i*23)%110,y=190+(i*13)%40;return `<ellipse cx="${x}" cy="${y}" rx="14" ry="4" fill="#e6dcc3" transform="rotate(${i*37} ${x} ${y})"/>`}).join('');
+const P=[
+["I · El último acto del Cenozoico",[
+[sc('#05070f','#14305a',stars()+C(300,340,215,'#5aa0d8')+C(300,346,205,'#173f66')+T(300,70,'CUATERNARIO','#e8dcc0',34)+T(300,100,'2,58 millones de años · hoy','#b9b19a',14)),'Prólogo','La Tierra lleva 4.500 millones de años cambiando. Este es el capítulo más reciente, y el único que alguien ha podido escribir.','w'],
+[sc('#d9b88a','#6b4a2f',mtn('#5b4636',200)+mtn('#3a2b20',240)+T(300,40,'OROGENIA ALPINA','#2a1d12',18)),'Paleógeno · 66–23 M.a.','Se levantan el Himalaya, los Andes, los Pirineos y los Alpes. Los mamíferos y las aves se expanden.',''],
+[sc('#1b1a17','#1b1a17',R(20,100,365,50,'#7a5c3a')+R(385,100,173,50,'#4f6b4a')+R(558,100,22,50,'#c9a227')+T(200,130,'PALEÓGENO','#fff',13)+T(470,130,'NEÓGENO','#fff',13)+T(300,70,'CENOZOICO · 66 M.a. → hoy','#e8dcc0',15)+T(540,185,'CUATERNARIO','#c9a227',13)),'Neógeno · 23–2,58 M.a.','Los continentes alcanzan su forma actual. Aparecen los primeros homínidos. El Cuaternario ocupa apenas una franja final.','']
+]],
+["II · El planeta se congela",[
+[sc('#9fb8c8','#e8f0f4',C(480,60,70,'rgba(255,255,255,.35)')+C(480,60,28,'#fff7d0')+mtn('#b8cfdc',170)+mtn('#cfdde6',200)+Pa('M0 260V190Q100 175 200 195T400 190T600 185V260Z','#eef5f8')+Pa('M0 260V225Q200 205 400 225T600 215V260Z','#dbe9f0')+Pa('M80 215L130 238M300 207L360 242M470 212L520 240','none','stroke="#6fa8cc" stroke-width="3"')+Pa('M20 200l30 -25 20 25zM520 195l25 -30 25 30z','#bfe0f0')+Pa('M0 120h140M380 95h200M200 150h120','none','stroke="rgba(255,255,255,.7)" stroke-width="2"')+u('h',300,138,1,'#22201e')+T(300,40,'GLACIACIÓN','#34495a',22)),'Casquetes de hielo','El enfriamiento general del clima, iniciado antes, culmina en enormes mantos de hielo sobre Norteamérica y Eurasia. El Cuaternario es la era del hielo por antonomasia.','w'],
+[sc('#10151c','#10151c',Pa('M0 130Q75 40 150 130T300 130T450 130T600 130','none','stroke="#8fd3ff" stroke-width="3"')+T(75,75,'interglaciar','#8fd3ff',12)+T(225,190,'glaciar','#8fd3ff',12)+T(300,245,'≈ 100.000 años por ciclo','#b9b19a',12)),'Alternancia','Periodos glaciares e interglaciares se suceden, ligados a variaciones de la órbita terrestre.',''],
+[sc('#1d3550','#0b1a2b',Pa('M0 260V110L260 110Q330 170 600 190V260Z','#4a3b2c')+R(0,190,600,70,'#2f6fa3')+`<path d="M0 190H600" stroke="#fff" stroke-dasharray="6 4"/>`+T(520,182,'nivel actual','#fff',11)+`<path d="M0 250H600" stroke="#9cd" stroke-dasharray="6 4"/>`+T(440,244,'glaciación: hasta −120 m','#cfe',11)),'El mar retrocede','Con tanta agua atrapada en hielo, el mar bajó más de cien metros y la costa se desplazó kilómetros.','']
+]],
+["III · La edad de los gigantes",[
+[sc('#2b1d3a','#e08a4a',C(300,165,150,'rgba(255,170,90,.12)')+C(300,165,95,'rgba(255,190,110,.2)')+C(300,165,58,'#ffe2a8')+Pa('M0 70Q150 50 300 75T600 60V85Q450 100 300 90T0 95Z','rgba(255,150,100,.25)')+Pa('M0 112Q200 97 400 117T600 107V124Q400 132 200 127T0 130Z','rgba(255,120,90,.2)')+mtn('#6b4a5a',185)+mtn('#3a2a36',215)+Pa('M0 260V205Q150 195 300 205T600 200V260Z','#1c140e')+grass(212,'#0a0705',40)+Pa('M60 50q8-8 16 0q8-8 16 0M120 38q6-6 12 0q6-6 12 0','none','stroke="#2a1a20" stroke-width="2"')+u('m',130,162,.55,'#3a2634')+u('m',205,166,.45,'#3a2634')+u('m',60,138,1,'#1d1318')+Pa('M440 212L270 228L420 234Z','rgba(0,0,0,.35)')+u('m',420,104,1.5,D)),'Pleistoceno · 2,58 M.a. – 11.700 años','Los mamíferos alcanzan su máximo desarrollo. El mamut lanudo recorre la estepa fría, defendido del hielo por su pelaje y su grasa.','w'],
+[sc('#2a3b4a','#8aa3b3',mtn('#4a5d6b',200)+R(180,185,240,75,'#2c2824')+u('t',250,128,1.3,'#14110e')),'Depredadores','Tigres de dientes de sable, osos de las cavernas y leones acechan a una fauna enorme.',''],
+[sc('#c9d6dc','#eef3f5',R(0,210,600,50,'#fff')+u('p',60,150,1.2,'#2e4a3a')+u('p',150,160,1,'#2e4a3a')+u('p',480,145,1.3,'#2e4a3a')+u('m',300,140,.9,'#3b2f26')),'Megafauna','Rinocerontes lanudos, bisontes y grandes herbívoros dominan los paisajes helados.','']
+]],
+["N · Antes del Cuaternario",[
+[sc('#2f6fa3','#1d4a73',R(0,0,250,95,'#6a8a4a')+R(350,165,250,95,'#6a8a4a')+Pa('M250 80L350 165L335 180L240 100Z','#8a9a5a')+ln('M0 130Q40 120 80 130T160 130','#9cd',2)+ln('M440 60Q480 50 520 60T600 60','#9cd',2)+T(300,30,'ISTMO DE PANAMÁ','#e8dcc0',16)+T(100,60,'N. AMÉRICA','#143',11)+T(500,215,'S. AMÉRICA','#143',11)),'Un istmo cambia las corrientes','Hace unos 3 millones de años el istmo de Panamá separó el Atlántico del Pacífico. Muchos investigadores lo citan, junto a otros factores, entre las causas del enfriamiento que desemboca en el Cuaternario.','w'],
+[sc('#05070f','#14305a',stars()+C(300,130,110,'#2f5a82')+C(300,130,70,'#cfe3ee')+C(300,130,35,'#fff')+T(300,135,'POLO NORTE','#34495a',11)+T(300,250,'2,58 M.a. · EL HIELO SE INSTALA','#c9bfa5',12)),'Año cero: 2,58 M.a.','Las glaciaciones del hemisferio norte se vuelven recurrentes. Ese es el límite oficial que marca el inicio del Cuaternario.','w']
+]],
+["N · El reloj de las glaciaciones",[
+[sc('#05070f','#14305a',stars()+ln('M70 140A230 80 0 1 0 530 140A230 80 0 1 0 70 140Z','#8fd3ff',2,5)+C(300,140,26,'#ffcf6a')+C(140,185,12,'#3d78a8')+T(300,30,'CICLOS DE MILANKOVITCH','#e8dcc0',16)),'Tres ritmos orbitales','La forma de la órbita (unos 100.000 años), la inclinación del eje (unos 41.000) y la precesión (unos 23.000) cambian cuánta radiación solar recibe cada hemisferio. Son el marcapasos de las glaciaciones.','w'],
+[sc('#cfe0ea','#dbe9f0',R(0,170,600,90,'#f4f8fa')+C(80,50,30,'#ffd08a')+ln('M100 70L300 175L440 70','#ff9a4a',3)+T(300,235,'el hielo refleja la luz solar','#34495a',14)+T(440,55,'albedo','#34495a',14)),'Retroalimentaciones','Más hielo refleja más luz y enfría aún más el planeta; con menos CO₂ el enfriamiento se amplifica. Así, pequeñas variaciones orbitales producen grandes glaciaciones.','w']
+]],
+["N · Homo erectus sale de África",[
+[sc('#f2c27a','#8a5a2a',C(480,70,60,'rgba(255,240,190,.35)')+C(480,70,36,'#fff2c0')+Pa('M0 260V200Q200 190 600 205V260Z','#6a4a22')+grass(206,'#3a2a10',40)+acacia(110,200,1.4)+acacia(480,205,1.1)+u('h',230,138,1,D)+u('h',290,142,.95,D)+u('h',345,146,.9,D)),'Homo erectus','Hace cerca de 1,8 millones de años Homo erectus camina erguido por África y Eurasia. Talla bifaces y, con el tiempo, aprende a controlar el fuego.','w'],
+[sc('#14120f','#14120f',ln('M80 200Q200 120 300 150T520 80','#c9a227',3,6)+T(80,225,'ÁFRICA','#e8dcc0',12)+T(300,130,'DMANISI','#e8dcc0',12)+T(520,60,'ASIA','#e8dcc0',12)+C(300,150,5,'#c9a227')),'Fuera de África','En Dmanisi (Georgia) aparecieron fósiles de hace unos 1,8 millones de años: de los primeros homininos conocidos fuera de África.','w']
+]],
+["IV · Atapuerca: los primeros europeos",[
+[sc('#3b2a1c','#120c07',bands(['#5a4330','#4a3626','#6b5038','#3f2d1f','#523a28','#2e2016'])+C(300,150,34,'#e6dcc3')+R(284,172,32,20,'#e6dcc3')+C(288,146,7,'#1a120b')+C(312,146,7,'#1a120b')+T(300,30,'GRAN DOLINA · SIERRA DE ATAPUERCA','#e8dcc0',16)),'Burgos, hace 850.000 años','En la Gran Dolina aparecieron los restos de Homo antecessor, de los homininos más antiguos de Europa occidental. El Pleistoceno no era solo cosa de mamuts: ya había humanos arcaicos resistiendo en un continente frío.','w'],
+[sc('#050507','#1d1710',Pa('M200 0H400L340 140H260Z','#14100b')+Pa('M290 0H310L335 190H265Z','rgba(255,230,160,.18)')+bones+T(500,30,'SIMA DE LOS HUESOS','#c9bfa5',12)),'Sima de los Huesos','Hace unos 430.000 años: restos de al menos 28 individuos de un linaje cercano a los neandertales, en el fondo de una sima. Aún se debate cómo llegaron allí.',''],
+[sc('#2a2118','#120d08',Pa('M300 40Q350 120 300 220Q250 120 300 40Z','#8a8274')+Pa('M300 60Q330 120 300 200','none','stroke="#b5ac98" stroke-width="2"')+T(300,245,'piedra tallada','#c9bfa5',12)),'La primera tecnología','Tallar piedra, dominar el fuego y cazar en grupo: durante cientos de miles de años, el ingenio fue la defensa contra un clima cambiante.','']
+]],
+["N · La Península en la era del hielo",[
+[sc('#c9d6dc','#eef3f5',mtn('#8aa0ae',170)+R(0,205,600,55,'#fff')+u('p',60,150,1.2,'#2e4a3a')+u('p',130,160,1,'#2e4a3a')+u('m',300,140,.9,'#3b2f26')+u('t',440,150,.8,'#14110e')+grass(208,'#999',40)),'Fauna ibérica','Rinocerontes, osos de las cavernas, hienas, linces y ciervos gigantes poblaron la Península; los mamuts llegaron al norte peninsular. Atapuerca y otras cuevas guardan sus huesos.','w'],
+[sc('#05060a','#1a1018',stars()+R(0,200,600,60,'#0c0a08')+u('t',200,140,1.6,D)+C(210,152,3,'#ffd24a')+C(225,152,3,'#ffd24a')+C(430,170,3,'#ff6a3a')+C(445,170,3,'#ff6a3a')),'La noche de los depredadores','Leopardos, leones de las cavernas y hienas disputaban presas y refugios a los grupos humanos. Las cuevas guardan huellas de esa convivencia peligrosa.','w']
+]],
+["N · El hielo esculpe el paisaje",[
+[sc('#9fb8c8','#e8f0f4',Pa('M0 40L180 80Q220 220 300 225Q380 220 420 80L600 40V260H0Z','#6f8794')+Pa('M205 225Q300 238 395 225L415 115L185 115Z','#eef5f8')+Pa('M0 40L180 80L150 120Z','rgba(0,0,0,.25)')+T(300,40,'VALLE EN U','#34495a',18)),'Valles, circos y morrenas','Los glaciares excavan valles en U, circos y aristas, y depositan morrenas. Los Pirineos albergaron glaciares de decenas de kilómetros, como el del Gállego, durante las glaciaciones.','w'],
+[sc('#b9ccd8','#dbe9f0',R(0,200,600,60,'#8a9a6a')+Pa('M230 205Q240 140 310 140Q380 150 390 205Z','#6a6a68')+Pa('M310 140Q380 150 390 205H340Z','rgba(0,0,0,.25)')+grass(206,'#3a4a2a',40)+u('h',440,138,1,'#222')+T(300,40,'BLOQUE ERRÁTICO','#34495a',16)),'Rocas viajeras','Los bloques erráticos son rocas arrastradas por el hielo y abandonadas lejos de su origen: pruebas silenciosas de glaciares desaparecidos.','w']
+]],
+["V · Aparece el ser humano moderno",[
+[sc('#3a1f2b','#f08a3c',C(520,150,110,'rgba(255,170,90,.15)')+C(520,150,50,'#ffc87a')+mtn('#5a3040',200)+Pa('M0 260V205Q150 198 300 206T600 202V260Z','#1a120c')+grass(214,'#070403',40)+Pa('M300 215Q330 200 380 212Q420 205 470 216V226H300Z','rgba(200,150,100,.28)')+u('m',330,100,1.5,'#120b08')+u('h',70,128,1.3,D)+u('h',140,138,1.15,D)+u('h',200,148,1,D)+u('h',250,155,.85,D)),'Homo sapiens','Hace unos 300.000 años surge en África el ser humano moderno. Cazar un mamut exigía cooperación, estrategia y lenguaje: la inteligencia como herramienta de supervivencia.','w'],
+[sc('#05060a','#1a1018',stars()+C(300,170,90,'rgba(255,140,30,.18)')+R(0,200,600,60,'#0c0a08')+Pa('M290 200Q270 160 300 120Q310 160 330 140Q345 170 310 200Z','#ff8a1f')+Pa('M300 200Q290 175 302 155Q315 175 318 200Z','#ffd24a')+u('h',220,150,.9,'#2a2018')+u('h',360,150,.9,'#2a2018')),'El fuego','El fuego dio calor, defensa y una nueva vida social: la noche dejó de ser solo peligro.',''],
+[sc('#6a4a32','#3d281a',u('k',60,50,1.6,'#b8321e')+u('k',490,60,1.6,'#b8321e')+u('k',120,140,1.3,'#b8321e')+Pa('M200 150Q220 110 270 120Q330 110 360 140L370 190H355L350 165H300L295 190H280L275 165H235L230 190H215L212 160Z','#2a140c')),'Arte rupestre','Manos y bisontes pintados en cuevas, hace decenas de miles de años. La humanidad empezó a dejar mensajes.','']
+]],
+["N · Cazadores y costureras",[
+[sc('#cfae7a','#6a4a2a',C(500,70,36,'#fff2c0')+R(0,205,600,55,'#4a3420')+tent(100,205,1.6,'#3a2a20')+tent(430,208,1.8,'#2e2018')+u('h',250,138,1,D)+u('h',310,145,.9,D)+grass(210,'#2a1a0e',40)),'Campamento paleolítico','Los grupos humanos vivían en campamentos de pieles y cuevas, siguiendo a los rebaños. Vestirse con pieles cosidas permitió colonizar latitudes frías.','w'],
+[sc('#2a2118','#120d08',ln('M100 200L330 70','#e6dcc3',5)+ln('M330 70L360 60M330 70L345 95','#e6dcc3',4)+ln('M420 70L440 190','#e6dcc3',3)+C(420,70,3,'#120d08')+T(200,230,'arpón','#c9bfa5',12)+T(430,225,'aguja de hueso','#c9bfa5',12)),'La caja de herramientas','Arpones de hueso, propulsores que alargan el brazo y agujas para coser pieles: tecnología que permitió cazar con más seguridad y resistir el frío.','w']
+]],
+["N · Altamira y el arte paleolítico",[
+[sc('#6a4a32','#3d281a',ln('M0 30Q150 50 300 20T600 40','rgba(0,0,0,.35)',2)+bi(130,110,.9,'#8a2a18')+bi(300,150,1.1,'#2a140c')+bi(470,100,.85,'#b8501e')),'Bisontes en el techo','Cuevas como Altamira (Cantabria) conservan bisontes, caballos y ciervos pintados con ocre, hematites y carbón. Las dataciones sitúan las pinturas más antiguas en torno a unos 36.000 años.','w'],
+[sc('#3d281a','#1a110a',C(150,120,40,'#b8321e')+C(250,120,40,'#d9a441')+C(350,120,40,'#2a1a10')+C(450,120,40,'#e6dcc3')+T(150,200,'hematites','#c9bfa5',12)+T(250,200,'ocre','#c9bfa5',12)+T(350,200,'carbón','#c9bfa5',12)+T(450,200,'caolín','#c9bfa5',12)),'La paleta del Paleolítico','Minerales molidos, mezclados con grasa o agua y aplicados con los dedos, con pinceles de pelo o soplando a través de huesos huecos.','w']
+]],
+["VI · Neandertales, hielo máximo y un puente de tierra",[
+[sc('#16243a','#4a6a8a',stars()+Pa('M0 90Q150 30 300 80T600 60V110Q450 140 300 100T0 130Z','rgba(80,255,170,.25)')+R(0,200,600,60,'#e8eef2')+Pa('M120 205L175 130L230 205Z','#3a2a20')+Pa('M360 205L415 140L470 205Z','#3a2a20')+C(300,190,10,'#ff8a1f')+u('h',255,148,.9,'#12100e')+u('h',335,150,.9,'#12100e')),'Homo neanderthalensis','Robustos y adaptados al frío, los neandertales ocuparon Europa y Asia occidental. Se extinguen hace unos 40.000 años; tras convivir y mezclarse con Homo sapiens, entre un 1 y un 2 % de ADN neandertal pervive en las poblaciones actuales no africanas.','w'],
+[sc('#10202e','#0a141d',stars()+C(300,135,95,'#3d78a8')+Pa('M205 135A95 95 0 0 1 395 135Q350 90 300 105Q250 90 205 135Z','#f0f5f8')+T(300,250,'ÚLTIMO MÁXIMO GLACIAL','#c9bfa5',12)),'26.500 – 19.000 años','El hielo alcanza su máxima extensión de la última glaciación. Cubre el norte de Europa y Norteamérica.',''],
+[sc('#cfe0ea','#8fb0c4',R(0,150,600,40,'#b9a888')+u('h',200,100,.6,D)+u('h',250,102,.55,D)+u('h',305,100,.6,D)+T(300,225,'BERINGIA','#34495a',18)),'El puente de Beringia','Con el mar 120 m más bajo, Siberia y Alaska quedaron unidas. Los humanos llegaron a América hace al menos unos 16.000 años; hay indicios más antiguos aún en debate.','']
+]],
+["VII · La gran extinción de la megafauna",[
+[sc('#3a4a5a','#cbb98a',R(0,190,600,70,'#2c4a60')+Pa('M150 190Q300 130 450 190Z','#5c5a3e')+u('m',265,125,.8,D)+T(300,40,'ISLA WRANGEL','#e8dcc0',16)),'Los últimos mamuts','Los mamuts desaparecen del continente hace unos 10.000 años, pero una población aislada sobrevivió en la isla Wrangel (Ártico ruso) hasta hace unos 4.000 años.','w'],
+[sc('#1a1814','#1a1814',T(150,110,'CLIMA','#8fd3ff',20)+Pa('M60 140Q105 120 150 140T240 140','none','stroke="#8fd3ff" stroke-width="3"')+T(300,160,'?','#c9a227',90)+T(450,110,'CAZA','#ff8a5a',20)+u('h',430,130,.9,'#ff8a5a')),'¿Clima o humanos?','La causa sigue en debate: el calentamiento del final de la glaciación, la presión de caza, o la suma de ambos.',''],
+[sc('#2b2a26','#12110f',u('m',30,120,.8,'rgba(230,220,200,.9)')+u('t',170,135,.8,'rgba(230,220,200,.65)')+u('m',290,120,.8,'rgba(230,220,200,.4)')+u('p',430,140,.9,'rgba(230,220,200,.22)')+u('m',480,120,.6,'rgba(230,220,200,.1)')),'Un mundo más vacío','Desaparecieron la mayoría de los grandes mamíferos de América y Australia. Los ecosistemas actuales son versiones empobrecidas de los del Pleistoceno.','']
+]],
+["VIII · Cómo sabemos lo que sabemos",[
+[sc('#0e2233','#2f6f95',R(250,20,100,230,'#cfe8f5')+[...Array(12)].map((_,i)=>R(250,20+i*19,100,2,'rgba(40,90,130,.5)')).join('')+T(450,120,'EPICA · DOME C','#cfe8f5',13)+T(450,140,'800.000 años de hielo','#9cc',12)+T(150,120,'burbujas de aire','#cfe8f5',12)+T(150,140,'antiguo atrapado','#9cc',12)),'Testigos de hielo','Las perforaciones en la Antártida extraen cilindros de hielo con burbujas de atmósfera antigua. Sus isótopos permiten reconstruir la temperatura y el CO₂ de los últimos 800.000 años.','w'],
+[sc('#4a3626','#2e2016',bands(['#7a5c3a','#a8885a','#5a4330','#8a6a44','#6b5038','#3f2d1f'])+[...Array(20)].map((_,i)=>C((i*61)%600,20+(i*37)%220,3,'#e8c84a')).join('')),'Sedimentos y polen','Capas marinas, lacustres y de loess guardan polen fósil y microfósiles que delatan climas pasados.',''],
+[sc('#14120f','#14120f',Pa('M40 40Q120 190 570 215','none','stroke="#c9a227" stroke-width="4"')+T(300,30,'DECAIMIENTO DEL CARBONO-14','#e8dcc0',13)+T(300,245,'útil hasta unos 50.000 años','#9a907c',12)),'Relojes de la Tierra','El carbono-14 data restos recientes; otras técnicas radiométricas llegan mucho más atrás.','']
+]],
+["N · El Dryas Reciente: la última recaída",[
+[sc('#14120f','#14120f',ln('M40 200L180 190L260 110L330 90L345 190L400 195L470 100L560 80','#8fd3ff',4)+T(345,230,'Dryas Reciente','#e8dcc0',13)+T(300,30,'TEMPERATURA · ÚLTIMO DESHIELO','#e8dcc0',13)+T(345,170,'12.900 – 11.700','#9a907c',11)),'La recaída del frío','Hace unos 12.900 años, con el hielo en retirada, el clima volvió bruscamente a condiciones casi glaciares durante cerca de 1.200 años.','w'],
+[sc('#2a3b2a','#1a2a1a',[...Array(8)].map((_,i)=>`<ellipse cx="300" cy="140" rx="14" ry="38" fill="#f4f0e0" transform="rotate(${i*45} 300 140) translate(0 -38)"/>`).join('')+C(300,140,16,'#e8c84a')+ln('M300 165V260','#3a5a2a',4)+T(300,30,'DRYAS OCTOPETALA','#c9d6b0',15)),'Una flor de tundra','El nombre viene de Dryas octopetala, una planta de tundra fría cuyo polen fósil se extendió por Europa en ese periodo.','w']
+]],
+["IX · El fin del hielo",[
+[sc('#f6d9a0','#8fc4a0',C(300,110,80,'rgba(255,240,190,.3)')+C(300,110,40,'#fff2c0')+mtn('#8fb09a',175)+mtn('#6e9a82',205)+Pa('M0 260V205Q150 195 300 205T600 200V260Z','#4f8a4a')+Pa('M0 260V225Q300 212 600 226V260Z','#3e7a3e')+Pa('M280 260Q300 230 330 215Q360 205 380 200L395 200Q372 212 345 226Q320 245 340 260Z','#6fb0d0')+[...Array(40)].map((_,i)=>C((i*83)%600,215+(i*29)%40,2,['#f4d03f','#fff','#e07aa0'][i%3])).join('')+u('p',70,140,1.2,'#2e5a3a')+u('p',30,150,1,'#265030')+u('p',490,135,1.3,'#2e5a3a')+u('p',550,150,1,'#265030')),'Holoceno · 11.700 años – hoy','Termina la última glaciación y comienza un periodo interglaciar cálido y estable, el marco climático de toda nuestra civilización.','w'],
+[sc('#f3d58a','#c9962f',wheat+u('h',300,150,1,'#3a2a10')),'Agricultura','Hace unos 10.000 años se domestican plantas y animales. Se abandona el nomadismo.',''],
+[sc('#1a2748','#d98e5a',C(500,80,30,'#ffd08a')+R(0,200,600,60,D)+bld+R(260,140,80,60,'#3a2a20')+Pa('M250 140L350 140L300 110Z','#3a2a20')),'Ciudades','Escritura, metales, templos y Estados. En pocos milenios, el ser humano se multiplica.','']
+]],
+["N · El Sáhara verde",[
+[sc('#f2d58a','#8fc4a0',C(120,60,34,'#fff2c0')+Pa('M0 260V190Q150 180 300 190T600 185V260Z','#9ab06a')+E(380,225,150,22,'#5fa8c8')+grass(196,'#4a5a2a',40)+acacia(90,200,1.3)+u('h',470,145,.9,D)+u('h',520,150,.8,D)),'Sabana con lagos','Entre hace unos 11.000 y 5.000 años el Sáhara fue una sabana con lagos y ganado. Las pinturas rupestres del Tassili lo atestiguan.','w'],
+[sc('#e0b060','#a8702a',C(480,60,40,'#fff2c0')+Pa('M0 260V190Q150 150 300 190T600 170V260Z','#c98a3a')+Pa('M0 260V220Q200 190 400 225T600 210V260Z','#a8702a')+u('h',300,150,.7,D)+T(300,40,'ARIDEZ','#6a3a10',16)),'El desierto regresa','Un cambio gradual en la órbita terrestre debilitó los monzones y el Sáhara se secó, empujando a poblaciones hacia el Nilo y favoreciendo las civilizaciones fluviales.','w']
+]],
+["N · Doggerland bajo el mar",[
+[sc('#c9a870','#7a9aa0',C(100,60,34,'#fff2c0')+R(0,170,600,90,'#6a8a6a')+[...Array(30)].map((_,i)=>ln(`M${i*20+4} 205V${175-(i*7)%20}`,'#3a5a2a',2)).join('')+E(300,235,200,18,'#7aa8b8')+u('h',220,130,1,D)+u('h',380,135,.9,D)),'Una llanura habitada','Hace 10.000 años el actual mar del Norte era una llanura de marismas y bosques: Doggerland unía Gran Bretaña con el continente.','w'],
+[sc('#1d3550','#0b1a2b',Pa('M0 260V110L200 110Q260 160 600 190V260Z','#4a3b2c')+Pa('M0 160Q150 130 300 170T600 150V260H0Z','rgba(47,111,163,.85)')+ln('M0 175Q75 160 150 175T300 175T450 175T600 175','#cfe',2)+T(300,40,'SUBIDA DEL MAR','#cfe8f5',16)+ln('M60 55V105M45 90L60 105L75 90','#cfe8f5',3)),'El mar reclama la llanura','El deshielo subió el mar más de 100 m. Doggerland quedó sumergida hacia hace unos 8.000 años, y un tsunami, el de Storegga (hace unos 8.200), pudo rematarlo.','w']
+]],
+["N · Domesticación",[
+[sc('#e8d9b0','#a8884a',wheat+u('h',230,150,1,'#3a2a10')+E(330,205,28,13,'#5a3a1a')+C(362,194,10,'#5a3a1a')+R(312,215,5,16,'#5a3a1a')+R(342,215,5,16,'#5a3a1a')+ln('M302 200Q290 185 296 175','#5a3a1a',4)),'El primer amigo','El lobo fue el primer animal domesticado, hace más de 15.000 años. Cabras, ovejas, vacas y cerdos lo serían hace unos 10.000.','w'],
+[sc('#14120f','#14120f',ln('M100 210Q200 40 400 90T520 200','#c9a227',10)+T(300,60,'MEDIA LUNA FÉRTIL','#e8dcc0',16)+T(300,235,'trigo · cebada · lentejas · guisantes','#9a907c',12)),'Dónde nació la agricultura','En el Próximo Oriente, hace unos 10.000 años, se cultivaron los primeros cereales y legumbres. La agricultura llegó a la Península hace unos 7.500 años.','w']
+]],
+["N · Las primeras civilizaciones",[
+[sc('#f6d9a0','#d98e5a',C(470,70,36,'#ffd08a')+R(0,205,600,55,'#c9a05a')+Pa('M120 205L200 100L280 205Z','#a8783a')+Pa('M200 100L280 205H200Z','rgba(0,0,0,.25)')+Pa('M300 205L380 90L460 205Z','#a8783a')+Pa('M380 90L460 205H380Z','rgba(0,0,0,.25)')+ln('M0 232Q300 220 600 232','#5fa8c8',6)+u('h',60,150,.9,D)),'Valles fluviales','Hace unos 5.000 años surgen la escritura y los primeros Estados en Mesopotamia y Egipto. Con el clima del Holoceno estable, crecen la población y las ciudades.','w'],
+[sc('#3a2a1a','#1a120a',R(150,50,300,150,'#b8935a')+[...Array(40)].map((_,i)=>ln(`M${170+(i%10)*28} ${70+Math.floor(i/10)*32}l10 8M${170+(i%10)*28} ${78+Math.floor(i/10)*32}l10 -8`,'#6a4a22',2)).join('')+T(300,235,'ESCRITURA CUNEIFORME','#c9bfa5',12)),'La memoria escrita','Las tablillas de arcilla inauguran la historia escrita: desde aquí el pasado ya no se lee solo en fósiles y capas de roca.','w']
+]],
+["X · Cronología del Cuaternario",[
+[sc('#14120f','#14120f',T(300,30,'CUATERNARIO · CRONOLOGÍA','#e8dcc0',16)+R(40,79,520,3,'#d9cfb6')+tk(40,80,'2,58 M.a.',-16)+tk(197,80,'1,8 M.a. erectus',24)+tk(389,80,'850.000 antecessor',-16)+tk(499,80,'300.000 sapiens',24)+tk(560,80,'hoy',-16)+T(300,130,'↓ ampliación: últimos 50.000 años','#9a907c',11)+R(40,189,520,3,'#d9cfb6')+tk(144,190,'40.000 neandertales',-16)+tk(352,190,'LGM 20.000',24)+tk(438,190,'Holoceno 11.700',-16)+tk(456,190,'agricultura',24)+tk(560,190,'hoy',-16)),'La línea del tiempo','Los hitos se agolpan al final: casi toda la historia humana documentada cabe en el último punto de la línea.','w'],
+[sc('#b9ccd8','#e8f0f4',R(0,170,600,90,'#dfe9ef')+R(40,110,60,70,'#5a4a3a')+Pa('M30 110L70 80L110 110Z','#3a2f26')+R(480,100,70,80,'#5a4a3a')+Pa('M470 100L515 70L560 100Z','#3a2f26')+u('h',200,150,.7,D)+u('h',300,155,.7,D)+u('h',380,148,.7,D)),'Pequeña Edad de Hielo','Entre los siglos XIV y XIX los glaciares alpinos avanzaron y los ríos europeos se helaban con frecuencia: un enfriamiento menor dentro del Holoceno.',''],
+[sc('#14120f','#14120f',T(300,45,'FICHA','#c9a227',16)+T(300,85,'Inicio · 2,58 M.a.','#e8dcc0',15)+T(300,120,'Pleistoceno + Holoceno','#e8dcc0',15)+T(300,155,'Glaciaciones e interglaciares','#e8dcc0',15)+T(300,190,'Auge de mamíferos · Homo sapiens','#e8dcc0',15)+T(300,225,'Humanidad que modifica el entorno','#e8dcc0',15)),'Resumen del Cuaternario','Los cinco rasgos de la era, en una sola mirada.','']
+]],
+["N · La Revolución Industrial",[
+[sc('#2a2a2e','#6a6a70',R(0,200,600,60,'#121214')+R(80,100,22,110,'#121214')+R(150,80,22,130,'#121214')+R(220,110,22,100,'#121214')+R(300,150,200,60,'#121214')+[[91,80,30],[161,55,38],[231,85,28],[130,40,44],[200,20,50]].map(a=>C(a[0],a[1],a[2],'rgba(110,105,105,.75)')).join('')+T(500,60,'≈ 1760 →','#e8dcc0',16)),'El carbón lo cambia todo','Desde 1760 aproximadamente el carbón impulsa fábricas, trenes y ciudades. Durante el Holoceno el CO₂ se mantuvo cerca de 280 ppm; desde entonces empieza a subir.','w'],
+[sc('#10151c','#10151c',[[280,'1750'],[296,'1900'],[315,'1958'],[369,'2000'],[422,'2024']].map((a,i)=>R(70+i*100,230-(a[0]-200)*.8,60,(a[0]-200)*.8,'#ff6a3a')+T(100+i*100,248,a[1],'#9a907c',11)+T(100+i*100,222-(a[0]-200)*.8,a[0],'#e8dcc0',12)).join('')+T(300,24,'CO₂ (ppm)','#e8dcc0',14)),'Una concentración sin precedentes','De unos 280 ppm preindustriales a más de 420 ppm hoy: un nivel que la atmósfera no tenía desde hace varios millones de años.','w']
+]],
+["N · ¿Y ahora qué?",[
+[sc('#14120f','#14120f',ln('M20 150Q100 60 180 150T340 150','#8fd3ff',3)+ln('M340 150Q420 60 500 150T580 150','#8fd3ff',3,6)+ln('M340 20V240','#c9a227',2)+T(340,255,'hoy','#c9a227',12)+T(460,50,'¿próxima glaciación?','#9a907c',12)),'El próximo ciclo','Por la órbita, la próxima glaciación podría llegar dentro de decenas de miles de años; el CO₂ emitido por la humanidad podría retrasarla durante decenas de milenios o más.','w'],
+[sc('#1d3550','#0b1a2b',bld+Pa('M0 260V185H600V260Z','rgba(47,111,163,.8)')+ln('M0 185H600','#cfe',2)+T(300,40,'+4 mm POR AÑO','#cfe8f5',16)),'El mar vuelve a subir','El nivel del mar sube hoy más de 4 mm al año y el ritmo se acelera, por la fusión del hielo y la dilatación del agua. El Cuaternario continúa.','w']
+]],
+["XI · La humanidad modifica el entorno",[
+[sc('#2a0f0f','#d4572a',C(480,100,90,'rgba(255,120,60,.25)')+C(480,100,50,'#ff9a4a')+Pa('M0 60Q150 40 300 70T600 50V120H0Z','rgba(60,45,45,.6)')+R(100,100,24,110,'#1a0f0c')+R(160,120,24,90,'#1a0f0c')+R(212,135,20,75,'#1a0f0c')+R(100,100,24,6,'#b0361c')+R(160,120,24,6,'#b0361c')+R(60,170,260,50,'#150b09')+[...Array(18)].map((_,i)=>R(70+i*14,180+(i%2)*14,6,6,'#ffcf5a')).join('')+smoke+C(200,20,50,'rgba(80,70,70,.7)')+C(260,40,40,'rgba(80,70,70,.6)')+Pa('M0 260V215Q300 205 600 215V260Z','#120a08')+[...Array(10)].map((_,i)=>R(330+i*26,222+(i%3)*5,10,8,'#2a1a10')).join('')),'Antropoceno','Deforestación, industria, urbanización. La humanidad es ya una fuerza geológica, y algunos científicos proponen nombrar esta etapa con su propio nombre.','w'],
+[sc('#10151c','#10151c',`<path d="M40 30V215H570" stroke="#777" fill="none"/>`+Pa('M40 190L90 150L140 195L190 150L240 200L300 150L350 195L420 150L480 190L520 150L545 120L560 40','none','stroke="#ff6a3a" stroke-width="4"')+T(300,22,'CO₂ ATMOSFÉRICO','#e8dcc0',14)+T(70,238,'hace 800.000 años','#aaa',11)+T(550,238,'hoy','#aaa',11)),'Una curva sin precedentes','Durante 800.000 años el CO₂ osciló entre unas 180 y 300 ppm. Hoy supera las 420.',''],
+[sc('#0b1020','#2a3a5a',stars()+C(470,90,50,'#3d6f9a')+Pa('M0 260V210Q300 150 600 215V260Z','#07090f')+u('h',290,125,.9,'#07090f')),'Epílogo','Alternancia de glaciaciones, auge de los mamíferos, aparición del ser humano moderno… y una especie que modifica el entorno. El Cuaternario aún no ha terminado: lo estamos escribiendo.','']
+]]
+];
+const root=document.getElementById('c');
+P.forEach((pg,i)=>{
+ const d=document.createElement('section');d.className='page';
+ d.innerHTML=`<div class="pt"><span>${i+1} · ${pg[0].split(' · ').slice(1).join(' · ')}</span><span>${i+1} / ${P.length}</span></div><div class="grid">`+
+ pg[1].map(v=>`<div class="pn ${v[3]?'w':''}">${v[0]}<div class="tx"><b>${v[1]}</b>${v[2]}</div></div>`).join('')+`</div>`;
+ root.appendChild(d);
+});
+</script></body></html>
